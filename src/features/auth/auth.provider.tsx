@@ -72,7 +72,6 @@ export const AuthProvider = (props: any) => {
             })
     }
 
-
     return (
         <AuthContext.Provider value={
             {

@@ -4,15 +4,7 @@ import clsx from "clsx";
 
 export enum ButtonMode {
     PRIMARY = 'primary',
-    SECONDARY = 'secondary',
-    THIRD = 'third',
 }
-
-/*type Props = React.PropsWithChildren & React.HTMLAttributes<HTMLButtonElement> & {
-    className?: string,
-    mode?: ButtonMode,
-    type?:
-}*/
 
 type Props = ButtonHTMLAttributes<any> & {
     className?: string,
@@ -28,7 +20,6 @@ export const Button: FunctionComponent<Props> = (
         ...props
     }) => {
 
-
     return (
         <button
             {...props}
@@ -39,7 +30,6 @@ export const Button: FunctionComponent<Props> = (
                     styles[mode]
                 )
             }
-
         >
             <div>{children}</div>
         </button>
