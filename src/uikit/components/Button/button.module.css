@@ -1,0 +1,14 @@
+.container{
+    border-radius: .25rem;
+    padding: .5rem 1rem;
+}
+
+.primary{
+    background-color: #337cff;
+    color: #fff;
+}
+
+.secondary{
+    background-color: indianred;
+    color: #fff;
+}
