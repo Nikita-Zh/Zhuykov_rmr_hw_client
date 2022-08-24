@@ -6,13 +6,15 @@ type Props = ComponentPropsWithRef<'input'>
     & {
     className?: string,
     title?: string,
+    error?: string
 }
 
 
 export const Input: FunctionComponent<Props> = forwardRef((props, ref) => {
     const {
         className,
-        title
+        title,
+        error
     } = props
     return (
         <div className={styles.wrapper}>
@@ -24,6 +26,11 @@ export const Input: FunctionComponent<Props> = forwardRef((props, ref) => {
                     styles.container,
                     className)}
             />
+            {error
+                ? <div className={styles.error}>{error}</div>
+                : <div className={styles.error_mock}></div>
+            }
+
         </div>
     )
 })

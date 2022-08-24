@@ -1,20 +1,29 @@
-.body {
-    display: flex;
-    flex-direction: column;
-}
-
 .form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    flex-grow: 1;
+    padding: 2rem;
+    /*flex-grow: 1;*/
+}
+
+.form__title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0 1.5rem;
+}
+
+.form__button{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .form > div {
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
 }
 
-.form > button {
-    margin-top: 1.5rem;
+.form > .form__button {
+    padding-top: .5rem;
 }

@@ -35,7 +35,7 @@ export type LoginFormFields = {
 }
 
 export const LoginForm = () => {
-    const {register, handleSubmit} = useForm<LoginFormFields>();
+    const {register, handleSubmit, formState: {errors}} = useForm<LoginFormFields>();
     const {login} = useAuthContext()
 
     const onSubmit = handleSubmit((data) => {
@@ -44,51 +44,79 @@ export const LoginForm = () => {
 
     return (
         <form className={styles.form} onSubmit={onSubmit}>
-            <h2>Login</h2>
+            <h2 className={styles.form__title}>Login</h2>
             <Input title={"Email"}
                    type={"email"}
                    placeholder={"email"}
                    {...register("email", {
-                       validate: {
-                           isEmailValid: value => {
-                               const isValueValid = value.match(regEmail)
-                               if (!isValueValid) {
-                                   console.log("email not valid")
-                                   return false
-                               }
-                               return true
-                           }
+                       /* validate: {
+                            isEmailValid: value => {
+                                const isValueValid = value.match(regEmail)
+                                if (!isValueValid) {
+                                    console.log("email not valid")
+                                    return false
+                                }
+                                return true
+                            }
+                        },*/
+                       required: "email is required",
+                       pattern: {
+                           value: regEmail,
+                           message: "email is not valid"
                        }
-                   })}/>
+                   })}
+                   error={errors.email?.message}
+            />
             <Input title={"Phone"}
                    type={"tel"}
                    placeholder={"phone"}
                    {...register("phone", {
-                       validate: {
+                       /*validate: {
                            isPhoneValid: value => {
                                if (value.search(regexPhoneRuMon) === 0) {
                                    return true
                                }
                                return false
                            }
+                       }*/
+                       required: "phone is required",
+                       pattern: {
+                           value: regexPhoneRuMon,
+                           message: "phone is not valid"
                        }
-                   })}/>
+                   })}
+                   error={errors.phone?.message}
+            />
             <Input title={"Password"}
                    type={"password"}
                    placeholder={"password"}
                    {...register("password", {
-                       validate: {
-                           isPasswordValid: value => {
-                               const isValueValid = value.match(regexPassword)
-                               if (!isValueValid) {
-                                   console.log("password not valid")
-                                   return false
-                               }
-                               return true
-                           }
+                       /* validate: {
+                            isPasswordValid: value => {
+                                const isValueValid = value.match(regexPassword)
+                                if (!isValueValid) {
+                                    console.log("password not valid")
+                                    return false
+                                }
+                                return true
+                            }
+                        }*/
+                       required: "password is required",
+                       minLength: {
+                           value: 4,
+                           message: "more than 4 characters are required "
+                       },
+                       pattern: {
+                           value: regexPassword,
+                           message: "password is not valid"
                        }
-                   })}/>
-            <Button className={styles.btnSubmit} mode={ButtonMode.PRIMARY} type={'submit'}> Sign in </Button>
+                   })}
+                   error={errors.password?.message}
+            />
+            <div className={styles.form__button}>
+                <Button className={styles.btnSubmit} mode={ButtonMode.PRIMARY} type={'submit'}> Sign in </Button>
+            </div>
+
         </form>
     )
 };
