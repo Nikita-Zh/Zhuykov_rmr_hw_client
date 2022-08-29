@@ -1,1 +1,1 @@
-export {API} from "./api.constants"
+export { API } from './api.constants';

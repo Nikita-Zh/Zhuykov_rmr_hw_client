@@ -1,5 +1,5 @@
-export type User = {
-    name: string
+export interface User {
+  name: string;
 }
 
 /*
@@ -10,4 +10,4 @@ type UserResponse = {
         email: string,
         phone: string
     }
-}*/
+} */
