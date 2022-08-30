@@ -1,14 +1,23 @@
-.container{
-    border-radius: .25rem;
-    padding: .5rem 1rem;
+.container {
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  transition: 0.2s;
 }
 
-.primary{
-    background-color: #337cff;
-    color: #fff;
+.primary {
+  background-color: #337cff;
+  color: #fff;
 }
 
-.secondary{
-    background-color: indianred;
-    color: #fff;
+.primary:hover {
+  background-color: #2562d0;
+}
+
+.secondary {
+  background-color: indianred;
+  color: #fff;
+}
+
+.secondary:hover {
+  background-color: #c23737;
 }

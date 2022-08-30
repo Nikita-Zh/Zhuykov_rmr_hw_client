@@ -1,10 +1,11 @@
 import { Navigate } from 'react-router-dom';
-import React, { FunctionComponent } from 'react';
-import { useAuthContext } from '../../features/auth/auth.provider';
+import { ReactElement, FunctionComponent } from 'react';
+import { useAuthContext } from '../../../features/auth/auth.provider';
 
 interface Props {
-  children: React.ReactElement;
+  children: ReactElement;
 }
+
 export const Protected: FunctionComponent<Props> = ({ children }) => {
   const { isAuth } = useAuthContext();
   if (!isAuth) {

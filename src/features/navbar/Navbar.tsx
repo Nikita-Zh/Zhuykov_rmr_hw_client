@@ -1,9 +1,9 @@
 import styles from './Navbar.module.css';
 import { useAuthContext } from '../auth/auth.provider';
 import { Button } from '../../uikit/components/Button/Button';
-import React from 'react';
+import { memo } from 'react';
 
-export const Navbar: () => JSX.Element = () => {
+export const Navbar = memo(() => {
   const { isAuth, user, logout } = useAuthContext();
   return (
     <nav className={styles.wrapper}>
@@ -23,4 +23,4 @@ export const Navbar: () => JSX.Element = () => {
       </div>
     </nav>
   );
-};
+});
