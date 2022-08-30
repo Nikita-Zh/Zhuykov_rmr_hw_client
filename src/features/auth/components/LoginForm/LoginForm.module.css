@@ -21,9 +21,15 @@
 }
 
 .form > div {
-  /*margin-top: 1rem;*/
 }
 
 .form > .form__button {
   padding-top: 0.5rem;
+}
+
+.error {
+  padding-top: 2rem;
+  font-size: 1rem;
+  line-height: 100%;
+  color: #ff3939;
 }

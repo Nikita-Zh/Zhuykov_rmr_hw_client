@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, Dispatch } from 'react';
 import { AuthContext } from './auth.context';
 import { API } from '../../infrastructure/api';
 import { User } from './auth.entity';
@@ -16,7 +16,10 @@ export const AuthProvider = (props: any) => {
   const { children } = props;
 
   useEffect(() => {
-    console.log('ASASSASAAS');
+    checkIfLoggedIn();
+  }, []);
+
+  const checkIfLoggedIn = () => {
     fetch(API.PROFILE_URL).then((res) => {
       if (res.status === HTTP_RES.SUCCESS) {
         setIsAuth(true);
@@ -31,9 +34,9 @@ export const AuthProvider = (props: any) => {
         setIsAuth(false);
       }
     });
-  }, []);
+  };
 
-  const login = (email: string, phone: string, password: string) => {
+  const login = (email: string, phone: string, password: string, failCatch?: Dispatch<boolean>) => {
     const req = {
       email,
       phone,
@@ -46,13 +49,14 @@ export const AuthProvider = (props: any) => {
       },
       body: JSON.stringify(req),
     }).then((res) => {
-      console.log('REQ: ', JSON.stringify(req));
-      console.log('RES: ', res);
       if (res.status === HTTP_RES.SUCCESS) {
         setIsAuth(true);
         getProfile();
       } else {
         setIsAuth(false);
+        if (failCatch) {
+          failCatch(true);
+        }
       }
     });
   };
@@ -61,7 +65,6 @@ export const AuthProvider = (props: any) => {
     fetch(API.LOGOUT_URL, {
       method: 'POST',
     }).then((res) => {
-      console.log('RES: ', res);
       if (res.status === HTTP_RES.SUCCESS) {
         setIsAuth(false);
       }
@@ -86,6 +89,7 @@ export const AuthProvider = (props: any) => {
         isAuth,
         login,
         logout,
+        checkIfLoggedIn,
       }}
     >
       {children}

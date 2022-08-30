@@ -4,15 +4,19 @@ import styles from './AppScreen.module.css';
 
 export const AppScreen = () => {
   const [imgLink, setImgLink] = useState('');
-  const { isAuth } = useAuthContext();
+  const { isAuth, checkIfLoggedIn } = useAuthContext();
 
   useEffect(() => {
     if (isAuth) {
       fetch('/api/v1/kitty')
         .then(async (res) => await res.json())
         .then((res) => {
-          console.log(res.data.src);
-          setImgLink(res.data.src);
+          console.log(res);
+          if (res.statusCode >= 400) {
+            checkIfLoggedIn();
+          } else {
+            setImgLink(res.data.src);
+          }
         });
     }
   }, [isAuth]);

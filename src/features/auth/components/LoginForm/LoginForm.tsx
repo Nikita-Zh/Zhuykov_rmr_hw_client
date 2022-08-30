@@ -1,12 +1,13 @@
 import styles from './LoginForm.module.css';
 import { useAuthContext } from '../../auth.provider';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, ButtonMode } from '../../../../uikit/components/Button/Button';
 import { Input } from '../../../../uikit/components/Input/Input';
+import { AuthErrors } from '../../auth.errors';
 
 const regEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-const regexPhoneRuMon = /\+7\d*|\+976\d*/;
+const regexPhoneRuMon = /\+7\d{10}|\+976\d{10}/;
 const regexPassword = /^[a-zA-Z\d]*$/;
 
 enum LoginFormValueVariables {
@@ -14,12 +15,6 @@ enum LoginFormValueVariables {
   phone = 'phone',
   password = 'password',
 }
-
-/* const LoginFormValueVariables = {
-    email: "email",
-    phone: "phone",
-    password: "password"
-} */
 
 type Brand<T, B extends LoginFormValueVariables> = T & { readonly _brand: B };
 type LoginEmail = Brand<string, LoginFormValueVariables.email>;
@@ -38,82 +33,57 @@ export const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormFields>();
+
+  const [failLogin, setFailLogin] = useState(false);
+
   const { login } = useAuthContext();
 
   const onSubmit = handleSubmit((data) => {
-    login(data.email, data.phone, data.password);
+    login(data.email, data.phone, data.password, setFailLogin);
   });
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <h2 className={styles.form__title}>Login</h2>
       <Input
-        title={'Email'}
+        label={'Email'}
         type={'email'}
         placeholder={'email'}
         {...register('email', {
-          /* validate: {
-                            isEmailValid: value => {
-                                const isValueValid = value.match(regEmail)
-                                if (!isValueValid) {
-                                    console.log("email not valid")
-                                    return false
-                                }
-                                return true
-                            }
-                        }, */
-          required: 'email is required',
+          required: AuthErrors.EMAIL_REQUIRED,
           pattern: {
             value: regEmail,
-            message: 'email is not valid',
+            message: AuthErrors.EMAIL_UNABLE_FORMAT,
           },
         })}
         error={errors.email?.message}
       />
       <Input
-        title={'Phone'}
+        label={'Phone'}
         type={'tel'}
         placeholder={'phone'}
         {...register('phone', {
-          /* validate: {
-                           isPhoneValid: value => {
-                               if (value.search(regexPhoneRuMon) === 0) {
-                                   return true
-                               }
-                               return false
-                           }
-                       } */
-          required: 'phone is required',
+          required: AuthErrors.PHONE_REQUIRED,
           pattern: {
             value: regexPhoneRuMon,
-            message: 'phone is not valid',
+            message: AuthErrors.PHONE_UNABLE_FORMAT,
           },
         })}
         error={errors.phone?.message}
       />
       <Input
-        title={'Password'}
+        label={'Password'}
         type={'password'}
         placeholder={'password'}
         {...register('password', {
-          /* validate: {
-                            isPasswordValid: value => {
-                                const isValueValid = value.match(regexPassword)
-                                if (!isValueValid) {
-                                    console.log("password not valid")
-                                    return false
-                                }
-                                return true
-                            }
-                        } */
-          required: 'password is required',
+          required: AuthErrors.PASSWORD_REQUIRED,
           minLength: {
             value: 4,
-            message: 'more than 4 characters are required ',
+            message: AuthErrors.PASSWORD_LENGTH,
           },
           pattern: {
             value: regexPassword,
-            message: 'password is not valid',
+            message: AuthErrors.PASSWORD_UNABLE_FORMAT,
           },
         })}
         error={errors.password?.message}
@@ -124,6 +94,7 @@ export const LoginForm = () => {
           Sign in{' '}
         </Button>
       </div>
+      {failLogin && <div className={styles.error}>Incorrect user data has been entered</div>}
     </form>
   );
 };
